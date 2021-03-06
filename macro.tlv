@@ -26,7 +26,7 @@ m4+definitions(['
          $instr[31:0] = *instrs\[#imem\];
       ?$imem_rd_en
          $imem_rd_data1[31:0] = /imem[$imem_rd_addr]$instr;
-         $imem_rd_data2[31:0] = /imem[$imem_rd_addr + 1]$instr;
+         $imem_rd_data2[31:0] = /imem[$imem_rd_addr +  32'd4]$instr;
     
 
 // A 2-rd 1-wr register file in |cpu that reads and writes in the given stages. If read/write stages are equal, the read values reflect previous writes.
