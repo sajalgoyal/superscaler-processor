@@ -26,7 +26,7 @@ m4+definitions(['
          $instr[31:0] = *instrs\[#imem\];
       ?$imem_rd_en
          $imem_rd_data1[31:0] = /imem[$imem_rd_addr]$instr;
-         $imem_rd_data2[31:0] = /imem[$imem_rd_addr +  32'd4]$instr;
+         $imem_rd_data2[31:0] = /imem[$imem_rd_addr +  1]$instr;
     
 
 // A 2-rd 1-wr register file in |cpu that reads and writes in the given stages. If read/write stages are equal, the read values reflect previous writes.
@@ -41,10 +41,12 @@ m4+definitions(['
                                        $RETAIN;
    @_rd
       ?$rf_rd_en1
-         $rf_rd_data1[31:0] = /xreg[$rf_rd_index1]>>m4_stage_eval(@_wr - @_rd + 1)$value;
+         $rf_rd_data01[31:0] = /xreg[$rf_rd_index01]>>m4_stage_eval(@_wr - @_rd + 1)$value;
+         $rf_rd_data11[31:0] = /xreg[$rf_rd_index11]>>m4_stage_eval(@_wr - @_rd + 1)$value;
       ?$rf_rd_en2
-         $rf_rd_data2[31:0] = /xreg[$rf_rd_index2]>>m4_stage_eval(@_wr - @_rd + 1)$value;
-      `BOGUS_USE($rf_rd_data1 $rf_rd_data2) 
+         $rf_rd_data02[31:0] = /xreg[$rf_rd_index02]>>m4_stage_eval(@_wr - @_rd + 1)$value;
+         $rf_rd_data12[31:0] = /xreg[$rf_rd_index12]>>m4_stage_eval(@_wr - @_rd + 1)$value;
+      `BOGUS_USE($rf_rd_data01 $rf_rd_data02 $rf_rd_data11 $rf_rd_data12) 
 
 
 // A data memory in |cpu at the given stage. Reads and writes in the same stage, where reads are of the data written by the previous transaction.
